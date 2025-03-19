@@ -146,7 +146,7 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
-    require('dap-python').setup 'uv'
+    require('dap-python').setup 'python'
     require('nvim-dap-virtual-text').setup()
   end,
 }

@@ -32,6 +32,7 @@ return {
       completion = {
         menu = { border = 'single' },
         documentation = { window = { border = 'single' } },
+        accept = { auto_brackets = { enabled = true } },
       },
       signature = { window = { border = 'single' } },
       -- Default list of enabled providers defined so that you can extend it

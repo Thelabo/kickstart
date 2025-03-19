@@ -15,7 +15,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
@@ -30,13 +29,38 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
+--/home/fredde/.config/nvim/lua/keymaps.lua
+vim.api.nvim_set_keymap('n', '<leader>cp', '', {
+  desc = 'Copy the current file path to the clipboard',
+  callback = function()
+    vim.cmd 'let @+ = expand("%:p")'
+  end,
+})
+vim.api.nvim_set_keymap('n', '<leader>cf', '', {
+  desc = 'Copy the current file name to the clipboard',
+  callback = function()
+    vim.cmd 'let @+ = expand("%:t")'
+  end,
+})
+vim.api.nvim_set_keymap('n', '<leader>cd', '', {
+  desc = 'Copy the current directory path to the clipboard',
+  callback = function()
+    vim.cmd 'let @+ = expand("%:p:h")'
+  end,
+})
+vim.api.nvim_set_keymap('n', '<leader>cr', '', {
+  desc = 'Copy the current relative file path to the clipboard',
+  callback = function()
+    local relative_path = vim.fn.expand '%:~:.'
+    vim.cmd('let @+ = "' .. relative_path .. '"')
+  end,
+})
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -44,5 +68,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+vim.api.nvim_set_keymap('n', '<leader>gg', ':!lazygit<CR>', { noremap = true, silent = true })
 
 -- vim: ts=2 sts=2 sw=2 et
